@@ -1,0 +1,50 @@
+# ─────────────────────────────────────────────────────────────────
+# LLaMA Style Config  (RoPE + RMSNorm + SwiGLU)
+# ─────────────────────────────────────────────────────────────────
+name: llama_style
+description: "RoPE positional encoding + RMSNorm + SwiGLU (LLaMA-style)"
+
+model:
+  vocab_size: 32000
+  d_model: 256
+  n_heads: 8
+  n_kv_heads: 4             # grouped query attention (GQA)
+  n_layers: 6
+  d_ff: 688                 # 2.75 × d_model (LLaMA formula)
+  max_seq: 512
+  dropout: 0.0              # LLaMA uses no dropout
+  rope_theta: 10000.0
+
+  pos_encoding: rope
+  norm_type: rmsnorm
+  activation: swiglu
+  attention_type: grouped_query
+  use_moe: false
+
+training:
+  optimizer: adamw
+  lr: 3.0e-4
+  weight_decay: 0.1
+  beta1: 0.9
+  beta2: 0.95
+  grad_clip: 1.0
+  batch_size: 32
+  gradient_accumulation: 1
+  max_steps: 5000
+  eval_every: 200
+  save_every: 500
+  warmup_steps: 200
+  lr_schedule: cosine
+  precision: bf16
+
+dataset:
+  name: tinystories
+  path: null
+  train_split: 0.9
+  block_size: 512
+
+logging:
+  wandb: false
+  log_every: 50
+  plot_attention: true
+  plot_grad_norms: true

@@ -1,0 +1,61 @@
+# LLMForge — Requirements
+# Install: pip install -r requirements.txt
+
+# ── Core ML ────────────────────────────────────────────────────
+torch>=2.1.0
+torchvision
+torchaudio
+
+# ── HuggingFace ecosystem ──────────────────────────────────────
+transformers>=4.39.3
+datasets>=2.18.0
+accelerate>=0.28.0
+peft>=0.10.0
+bitsandbytes>=0.43.0      # 4-bit quantization (requires CUDA)
+sentencepiece
+tokenizers>=0.15.0
+
+# ── RAG stack ──────────────────────────────────────────────────
+chromadb>=0.4.0
+sentence-transformers>=2.7.0
+langchain>=0.1.0
+langchain-community>=0.0.20
+PyMuPDF>=1.24.0            # PDF extraction
+pypdf>=4.0.0
+
+# ── Evaluation ─────────────────────────────────────────────────
+nltk>=3.8.0
+rouge-score>=0.1.2
+evaluate>=0.4.0
+safetensors>=0.4.0
+
+# ── UI ──────────────────────────────────────────────────────────
+gradio>=4.0.0
+ipywidgets>=8.0.0
+
+# ── Data science ───────────────────────────────────────────────
+pandas>=2.0.0
+numpy>=1.24.0
+matplotlib>=3.7.0
+seaborn>=0.13.0
+
+# ── Utilities ──────────────────────────────────────────────────
+psutil>=5.9.0
+tqdm>=4.66.0
+rich>=13.0.0
+pyyaml>=6.0.0
+python-dotenv>=1.0.0
+
+# ── Notebooks ──────────────────────────────────────────────────
+jupyter>=1.0.0
+jupyterlab>=4.0.0
+
+# ── Testing ────────────────────────────────────────────────────
+pytest>=7.4.0
+pytest-cov>=4.1.0
+
+# ── Optional ───────────────────────────────────────────────────
+# lion-pytorch>=0.2.0    # Lion optimizer
+# genanki>=0.13.0        # Anki flashcard export
+# yt-dlp>=2024.0.0       # YouTube download for SubGen
+# openai-whisper>=20231117  # Speech transcription

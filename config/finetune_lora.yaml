@@ -1,0 +1,64 @@
+# ─────────────────────────────────────────────────────────────────
+# Fine-tuning Config — LoRA / QLoRA on any HuggingFace model
+# Inspired by Unsloth Studio's approach
+# ─────────────────────────────────────────────────────────────────
+name: finetune_lora
+description: "LoRA fine-tuning — works on TinyGPT or any HF model"
+
+base_model:
+  source: local              # local | huggingface
+  path: checkpoints/latest  # local checkpoint or HF model id
+  # Examples:
+  #   microsoft/phi-2
+  #   TinyLlama/TinyLlama-1.1B-Chat-v1.0
+  #   meta-llama/Llama-3.2-1B
+
+quantization:
+  enabled: false             # true for QLoRA
+  bits: 4                    # 4 | 8
+  quant_type: nf4            # nf4 | fp4
+  double_quant: true
+
+lora:
+  enabled: true
+  rank: 8                    # r: 4 | 8 | 16 | 32 | 64
+  alpha: 16                  # scaling = alpha / rank
+  dropout: 0.05
+  target_modules:            # which layers to adapt
+    - qkv                    # attention projections
+    - out_proj               # attention output
+    # - mlp_up               # uncomment to also adapt MLP
+    # - mlp_down
+  bias: none                 # none | all | lora_only
+
+dataset:
+  name: alpaca               # alpaca | dolly | custom | oasst
+  path: null
+  format: instruction        # instruction | chat | completion
+  max_samples: 2000
+  train_split: 0.9
+  max_length: 512
+  # Custom dataset columns (if format=custom):
+  input_col: instruction
+  output_col: output
+
+training:
+  optimizer: adamw
+  lr: 2.0e-4
+  weight_decay: 0.01
+  grad_clip: 1.0
+  batch_size: 4
+  gradient_accumulation: 4   # effective batch = 4*4 = 16
+  epochs: 3
+  warmup_ratio: 0.03
+  lr_schedule: cosine
+  precision: fp16
+  eval_every: 100
+  save_every: 500
+
+export:
+  save_lora_only: true       # save just the adapter (small!)
+  merge_and_save: false      # merge into base weights
+  export_gguf: false         # convert for llama.cpp / Ollama
+  push_to_hub: false
+  hub_repo: null
