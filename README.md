@@ -29,7 +29,7 @@ and [Unsloth Studio](https://unsloth.ai). Runs on free Colab T4 or Ubuntu 24.04.
 
 ```bash
 # Clone and setup
-git clone <your-repo>
+git clone https://github.com/kishoredot-hub/mini-llm-forge.git
 cd LLMForge
 bash setup.sh          # installs everything (Ubuntu 24.04)
 
